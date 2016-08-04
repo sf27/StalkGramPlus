@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">StalkgramPlus</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="main.button.set_as">Set as</string>
+    <string name="main.button.share">Share</string>
+    <string name="main.edit.paste_the_share_link_here">Paste the share link here</string>
+</resources>
