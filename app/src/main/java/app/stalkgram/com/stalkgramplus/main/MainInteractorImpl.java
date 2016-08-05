@@ -29,20 +29,12 @@ public class MainInteractorImpl implements MainInteractor, DownloadPageAndParseH
 
     @Override
     public void downloadFile(String url) {
-        System.out.println("url: " + url);
-
         parseHtml.setOnCompleteCallback(this);
         parseHtml.execute(url);
-
-//        ScrappingInstagram scrappingInstagram = new ScrappingInstagram();
-//        HashMap<String, String> data = scrappingInstagram.getData(url);
-//        System.out.println("data: " + data);
-
     }
 
     @Override
     public void onComplete(HashMap<String, String> data) {
-        System.out.println("data: " + data);
         if (data != null){
             String username = data.get(ScrappingInstagram.USERNAME_KEY);
             String videoUrl = data.get(ScrappingInstagram.VIDEO_KEY);

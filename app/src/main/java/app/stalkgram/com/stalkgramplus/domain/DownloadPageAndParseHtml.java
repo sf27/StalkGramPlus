@@ -33,7 +33,7 @@ public class DownloadPageAndParseHtml extends AsyncTask<String, Integer, HashMap
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        String msn = this.context.getResources().getString(R.string.app_name);
+        String msn = this.context.getResources().getString(R.string.download_and_parse_progress);
         pDialog = new ProgressDialog(this.context);
         pDialog.setMessage(msn);
         pDialog.setIndeterminate(false);

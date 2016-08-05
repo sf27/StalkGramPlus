@@ -10,4 +10,5 @@
     <string name="main.edit.paste_the_share_link_here">Paste the share link here</string>
     <string name="main.error.downloading.file">Ha ocurrido un error al descargar el archivo: %s</string>
     <string name="main_error_empty_clipboard">Error: Debe pegar una url válida</string>
+    <string name="download_and_parse_progress">Escaneando Sitio Web de Instagram...</string>
 </resources>

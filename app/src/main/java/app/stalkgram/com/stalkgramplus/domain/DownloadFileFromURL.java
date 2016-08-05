@@ -20,35 +20,12 @@ import static app.stalkgram.com.stalkgramplus.main.events.MainEvent.onDownloadVi
 
 public class DownloadFileFromURL extends AsyncTask<String, Integer, String> {
 
-//    private ProgressBar progress = null;
-
-    //    public DownloadFileFromURL(ProgressBar progress, String type) {
-//        this.progress = progress;
-//    }
-//    private String absPath;
     private int event;
     private EventBus eventBus;
-//    public DownloadFileFromURL(String absPath) {
-//        this.absPath = absPath;
-//    }
 
     public DownloadFileFromURL(int event) {
         this.event = event;
         this.eventBus = GreenRobotEventBus.getInstance();
-    }
-
-    /**
-     * Before starting background thread Show Progress Bar Dialog
-     */
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-
-//        this.progress.setVisibility(View.VISIBLE);
-//        this.progress.setIndeterminate(false);
-//        this.progress.setProgress(0);
-//        this.progress.setMax(100);
-//        this.progress.invalidate();
     }
 
     /**
@@ -87,7 +64,7 @@ public class DownloadFileFromURL extends AsyncTask<String, Integer, String> {
 
             File f = new File(path + "/");
             if (!f.exists()) {
-                boolean mkdirs = f.mkdirs();
+                f.mkdirs();
             }
 
             OutputStream output = new FileOutputStream(absPath);
@@ -121,7 +98,6 @@ public class DownloadFileFromURL extends AsyncTask<String, Integer, String> {
      * Updating progress bar
      */
     protected void onProgressUpdate(Integer... prog) {
-//        this.progress.setProgress(prog[0]);
         postProgress(prog[0]);
     }
 
@@ -141,9 +117,6 @@ public class DownloadFileFromURL extends AsyncTask<String, Integer, String> {
                     break;
             }
         }
-//        this.progress.setProgress(0);
-//        this.progress.setVisibility(View.INVISIBLE);
-
     }
 
     private void postImageSuccess(String filePath) {
@@ -170,5 +143,4 @@ public class DownloadFileFromURL extends AsyncTask<String, Integer, String> {
         event.setProgress(progress);
         eventBus.post(event);
     }
-
 }
