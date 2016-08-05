@@ -110,8 +110,6 @@
                 style="@style/ButtonText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
                 android:scaleType="centerInside"
                 android:contentDescription="Image"/>
 
@@ -130,7 +128,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:visibility="invisible"/>
+                android:visibility="invisible"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                />
         </FrameLayout>
     </android.support.v7.widget.CardView>
 

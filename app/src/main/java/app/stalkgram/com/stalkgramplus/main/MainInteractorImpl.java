@@ -1,10 +1,7 @@
 package app.stalkgram.com.stalkgramplus.main;
 
-import android.content.Context;
-
 import java.util.HashMap;
 
-import app.stalkgram.com.stalkgramplus.domain.DownloadPageAndParseHtml;
 import app.stalkgram.com.stalkgramplus.domain.ScrappingInstagram;
 import app.stalkgram.com.stalkgramplus.lib.GreenRobotEventBus;
 import app.stalkgram.com.stalkgramplus.lib.base.EventBus;
@@ -13,29 +10,21 @@ import app.stalkgram.com.stalkgramplus.main.events.MainEvent;
 /**
  * Created by elio on 8/5/16.
  */
-public class MainInteractorImpl implements MainInteractor, DownloadPageAndParseHtml.onCompletedCallback {
+public class MainInteractorImpl implements MainInteractor {
 
     private MainRepository mainImageRepository;
     private MainRepository mainVideoRepository;
     private EventBus eventBus;
-    private DownloadPageAndParseHtml parseHtml;
 
-    public MainInteractorImpl(Context context) {
-        this.mainImageRepository = new MainImageRepositoryImpl();
-        this.mainVideoRepository = new MainVideoRepositoryImpl();
-        this.eventBus = GreenRobotEventBus.getInstance();
-        this.parseHtml = new DownloadPageAndParseHtml(context);
+    public MainInteractorImpl(MainImageRepositoryImpl mainImageRepository, MainVideoRepositoryImpl mainVideoRepository, EventBus eventBus) {
+        this.mainImageRepository = mainImageRepository;
+        this.mainVideoRepository = mainVideoRepository;
+        this.eventBus = eventBus;
     }
 
     @Override
-    public void downloadFile(String url) {
-        parseHtml.setOnCompleteCallback(this);
-        parseHtml.execute(url);
-    }
-
-    @Override
-    public void onComplete(HashMap<String, String> data) {
-        if (data != null){
+    public void downloadFile(HashMap<String, String> data) {
+        if (data != null) {
             String username = data.get(ScrappingInstagram.USERNAME_KEY);
             String videoUrl = data.get(ScrappingInstagram.VIDEO_KEY);
             String imageUrl = data.get(ScrappingInstagram.IMAGE_KEY);

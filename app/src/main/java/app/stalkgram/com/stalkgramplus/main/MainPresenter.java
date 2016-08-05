@@ -9,7 +9,9 @@ public interface MainPresenter {
     void onCreate();
     void onDestroy();
 
-    void downloadPhoto(String url);
+    void downloadFile(String url);
+    void shareFile();
+    void setAsFile();
     void onEventMainThread(MainEvent event);
 
     void checkIfStorageIsAvailable();

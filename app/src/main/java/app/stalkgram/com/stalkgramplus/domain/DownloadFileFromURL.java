@@ -11,7 +11,6 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
-import app.stalkgram.com.stalkgramplus.lib.GreenRobotEventBus;
 import app.stalkgram.com.stalkgramplus.lib.base.EventBus;
 import app.stalkgram.com.stalkgramplus.main.events.MainEvent;
 
@@ -23,9 +22,9 @@ public class DownloadFileFromURL extends AsyncTask<String, Integer, String> {
     private int event;
     private EventBus eventBus;
 
-    public DownloadFileFromURL(int event) {
+    public DownloadFileFromURL(int event, EventBus eventBus) {
         this.event = event;
-        this.eventBus = GreenRobotEventBus.getInstance();
+        this.eventBus = eventBus;
     }
 
     /**

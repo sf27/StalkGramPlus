@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
@@ -23,12 +24,11 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.VideoView;
 
-import java.util.HashMap;
+import javax.inject.Inject;
 
 import app.stalkgram.com.stalkgramplus.R;
-import app.stalkgram.com.stalkgramplus.domain.ScrappingInstagram;
+import app.stalkgram.com.stalkgramplus.StalkgramApp;
 import app.stalkgram.com.stalkgramplus.main.MainPresenter;
-import app.stalkgram.com.stalkgramplus.main.MainPresenterImpl;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -66,7 +66,10 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.layoutMainContainer)
     RelativeLayout container;
 
-    private MainPresenter mainPresenter;
+    @Inject
+    MainPresenter mainPresenter;
+
+    private StalkgramApp app;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +77,9 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
+
+        app = (StalkgramApp) getApplication();
+        setupInjection();
 
         setSupportActionBar(toolbar);
 
@@ -83,28 +89,14 @@ public class MainActivity extends AppCompatActivity
 
         navigationView.setNavigationItemSelectedListener(this);
 
-        mainPresenter = new MainPresenterImpl(this, this);
         mainPresenter.onCreate();
         mainPresenter.checkIfStorageIsAvailable();
 
-        String url = "https://www.instagram.com/p/BIq5Ua0jhRQ/";
-        ScrappingInstagram scrappingInstagram = new ScrappingInstagram();
-        HashMap<String, String> data = scrappingInstagram.getData(url);
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                String url = "https://www.instagram.com/p/BIq5Ua0jhRQ/";
-                ScrappingInstagram scrappingInstagram = new ScrappingInstagram();
-                HashMap<String, String> data = scrappingInstagram.getData(url);
-                //System.out.println("Data: " + data);
-                if (data != null) {
-                    System.out.println("ImageUrl: " + data.get(ScrappingInstagram.IMAGE_KEY));
-                    System.out.println("VideoUrl: " + data.get(ScrappingInstagram.VIDEO_KEY));
-                    System.out.println("Username: " + data.get(ScrappingInstagram.USERNAME_KEY));
-                }
-            }
-        });
+        setInputs(true);
+    }
 
+    private void setupInjection() {
+        app.getMainComponent(this, this).inject(this);
     }
 
     @Override
@@ -195,6 +187,10 @@ public class MainActivity extends AppCompatActivity
             public void run() {
                 imageView.setVisibility(View.INVISIBLE);
                 videoView.setVisibility(View.INVISIBLE);
+                progressBar.setIndeterminate(false);
+                progressBar.setProgress(0);
+                progressBar.setMax(100);
+                progressBar.invalidate();
                 progressBar.setVisibility(View.VISIBLE);
             }
         });
@@ -234,7 +230,7 @@ public class MainActivity extends AppCompatActivity
             return;
         }
         txtLink.setText(url);
-        mainPresenter.downloadPhoto(url);
+        mainPresenter.downloadFile(url);
     }
 
     @Override
@@ -259,6 +255,10 @@ public class MainActivity extends AppCompatActivity
                 mediaController = new MediaController(MainActivity.this, true);
                 mediaController.setEnabled(false);
 
+                FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(                                         FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT
+                );
+
+                videoView.setLayoutParams(lp);
                 videoView.setMediaController(mediaController);
                 videoView.setVideoPath(videoPath);
                 videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
@@ -299,5 +299,15 @@ public class MainActivity extends AppCompatActivity
                 btnShare.setEnabled(enabled);
             }
         });
+    }
+
+    @OnClick(R.id.btnSetAs)
+    public void onSetAs() {
+        mainPresenter.setAsFile();
+    }
+
+    @OnClick(R.id.btnShare)
+    public void onShare() {
+        mainPresenter.shareFile();
     }
 }

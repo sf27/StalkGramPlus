@@ -4,7 +4,10 @@ import android.content.Context;
 
 import org.greenrobot.eventbus.Subscribe;
 
-import app.stalkgram.com.stalkgramplus.lib.GreenRobotEventBus;
+import java.util.HashMap;
+
+import app.stalkgram.com.stalkgramplus.domain.DownloadPageAndParseHtml;
+import app.stalkgram.com.stalkgramplus.domain.FileUtils;
 import app.stalkgram.com.stalkgramplus.lib.base.EventBus;
 import app.stalkgram.com.stalkgramplus.main.UI.MainView;
 import app.stalkgram.com.stalkgramplus.main.events.MainEvent;
@@ -12,36 +15,59 @@ import app.stalkgram.com.stalkgramplus.main.events.MainEvent;
 /**
  * Created by elio on 8/5/16.
  */
-public class MainPresenterImpl implements MainPresenter {
+public class MainPresenterImpl implements MainPresenter, DownloadPageAndParseHtml.onCompletedCallback {
 
     private EventBus eventBus;
     private MainView mainView;
     private MainInteractor mainInteractor;
+    private Context context;
+    private String filePath;
 
-    public MainPresenterImpl(MainView mainView, Context context) {
+    public MainPresenterImpl(Context context, EventBus eventBus, MainView mainView, MainInteractorImpl mainInteractor) {
+        this.context = context;
+        this.eventBus = eventBus;
         this.mainView = mainView;
-        this.eventBus = GreenRobotEventBus.getInstance();
-        this.mainInteractor = new MainInteractorImpl(context);
+        this.mainInteractor = mainInteractor;
     }
 
     @Override
     public void onCreate() {
+        filePath = null;
         eventBus.register(this);
     }
 
     @Override
     public void onDestroy() {
+        filePath = null;
         mainView = null;
         eventBus.unregister(this);
     }
 
     @Override
-    public void downloadPhoto(String url) {
+    public void downloadFile(String url) {
         if (mainView != null) {
             mainView.disableInputs();
             mainView.showProgress();
         }
-        mainInteractor.downloadFile(url);
+        DownloadPageAndParseHtml parseHtml = new DownloadPageAndParseHtml(context);
+        parseHtml.setOnCompleteCallback(this);
+        parseHtml.execute(url);
+    }
+
+    @Override
+    public void shareFile() {
+        String path = getFilePath();
+        if (path != null) {
+            FileUtils.shareFile(path, context);
+        }
+    }
+
+    @Override
+    public void setAsFile() {
+        String path = getFilePath();
+        if (path != null) {
+            FileUtils.setImageAs(path, context);
+        }
     }
 
     @Override
@@ -81,6 +107,7 @@ public class MainPresenterImpl implements MainPresenter {
             mainView.hideProgress();
             mainView.enableInputs();
             mainView.downloadImageSuccess(imagePath);
+            setFilePath(imagePath);
         }
     }
 
@@ -89,6 +116,7 @@ public class MainPresenterImpl implements MainPresenter {
             mainView.hideProgress();
             mainView.enableInputs();
             mainView.downloadVideoSuccess(videoPath);
+            setFilePath(videoPath);
         }
     }
 
@@ -98,4 +126,16 @@ public class MainPresenterImpl implements MainPresenter {
         }
     }
 
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    @Override
+    public void onComplete(HashMap<String, String> data) {
+        mainInteractor.downloadFile(data);
+    }
 }
