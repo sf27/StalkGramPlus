@@ -6,7 +6,6 @@ import javax.inject.Singleton;
 
 import app.stalkgram.com.stalkgramplus.lib.base.EventBus;
 import app.stalkgram.com.stalkgramplus.main.MainImageRepositoryImpl;
-import app.stalkgram.com.stalkgramplus.main.MainInteractor;
 import app.stalkgram.com.stalkgramplus.main.MainInteractorImpl;
 import app.stalkgram.com.stalkgramplus.main.MainPresenter;
 import app.stalkgram.com.stalkgramplus.main.MainPresenterImpl;
@@ -41,22 +40,26 @@ public class MainModule {
         return view;
     }
 
-    @Provides @Singleton
+    @Provides
+    @Singleton
     MainPresenter providesMainPresenter(Context context, EventBus eventBus, MainView mainView, MainInteractorImpl mainInteractor) {
         return new MainPresenterImpl(context, eventBus, mainView, mainInteractor);
     }
 
-    @Provides @Singleton
-    MainInteractorImpl providesMainInteractor(MainImageRepositoryImpl mainImageRepository, MainVideoRepositoryImpl mainVideoRepository, EventBus eventBus) {
-        return new MainInteractorImpl(mainImageRepository, mainVideoRepository, eventBus);
+    @Provides
+    @Singleton
+    MainInteractorImpl providesMainInteractor(Context context, MainImageRepositoryImpl mainImageRepository, MainVideoRepositoryImpl mainVideoRepository, EventBus eventBus) {
+        return new MainInteractorImpl(context, mainImageRepository, mainVideoRepository, eventBus);
     }
 
-    @Provides @Singleton
+    @Provides
+    @Singleton
     MainImageRepositoryImpl providesMainImageRepositoryImpl(EventBus eventBus) {
         return new MainImageRepositoryImpl(eventBus);
     }
 
-    @Provides @Singleton
+    @Provides
+    @Singleton
     MainVideoRepositoryImpl providesMainVideoRepositoryImpl(EventBus eventBus) {
         return new MainVideoRepositoryImpl(eventBus);
     }

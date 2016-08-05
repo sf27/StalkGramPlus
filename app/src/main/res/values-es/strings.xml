@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app.name">StalkgramPlus</string>
+    <string name="action.settings">Configuración</string>
+    <string name="download.and.parse.progress">Escaneando Sitio Web de Instagram...</string>
+    <string name="drawer.images.menu">Imagénes</string>
+    <string name="drawer.videos.menu">Videos</string>
+    <string name="event.error.not.return.data">Objeto no retornó data</string>
+    <string name="main.button.set.as">Establecer</string>
+    <string name="main.edit.paste.the.share.link.here">Pegar el enlace para compartir aquí</string>
+    <string name="main.button.share">Compartir</string>
+    <string name="main.error.downloading.file">Ha ocurrido un error al descargar el archivo: %s</string>
+    <string name="main.error.empty.clipboard">Error: Debe pegar una url válida </string>
+    <string name="navigation.drawer.close">Cerrar menú de navegación</string>
+    <string name="navigation.drawer.open">Abrir menú de navegación</string>
+    <string name="stalkgram.description">Aplicación para descargar imágenes y videos de Instagram</string>
+</resources>

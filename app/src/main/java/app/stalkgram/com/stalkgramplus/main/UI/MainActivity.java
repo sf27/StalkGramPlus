@@ -12,6 +12,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -117,7 +119,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+//        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -142,18 +144,8 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        if (id == R.id.nav_videos) {
+        } else if (id == R.id.nav_images) {
         }
 
         drawer.closeDrawer(GravityCompat.START);
@@ -221,16 +213,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     @OnClick(R.id.fab)
     public void onDownload() {
-        String url = getClipBoardText();
-        System.out.println("URL: " + url);
-        if (url.isEmpty() || !url.contains("https://www.instagram.com/")) {
-            Snackbar.make(
-                    container, R.string.main_error_empty_clipboard, Snackbar.LENGTH_SHORT
-            ).show();
-            return;
-        }
-        txtLink.setText(url);
-        mainPresenter.downloadFile(url);
+        onPaste();
     }
 
     @Override
@@ -309,5 +292,17 @@ public class MainActivity extends AppCompatActivity
     @OnClick(R.id.btnShare)
     public void onShare() {
         mainPresenter.shareFile();
+    }
+
+    private void onPaste(){
+        String url = getClipBoardText();
+        if (url.isEmpty() || !url.contains("https://www.instagram.com/")) {
+            Snackbar.make(
+                    container, R.string.main_error_empty_clipboard, Snackbar.LENGTH_SHORT
+            ).show();
+            return;
+        }
+        txtLink.setText(url);
+        mainPresenter.downloadFile(url);
     }
 }
