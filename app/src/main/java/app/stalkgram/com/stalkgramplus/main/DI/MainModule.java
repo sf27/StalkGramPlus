@@ -76,14 +76,14 @@ public class MainModule {
 
     @Provides
     @Singleton
-    MainImageRepositoryImpl providesMainImageRepositoryImpl(DownloadFileFromURL downloadFileFromURL) {
-        return new MainImageRepositoryImpl(downloadFileFromURL);
+    MainImageRepositoryImpl providesMainImageRepositoryImpl(DownloadFileFromURL downloadFileFromURL, EventBus eventBus, MainEvent event) {
+        return new MainImageRepositoryImpl(downloadFileFromURL, eventBus, event);
     }
 
     @Provides
     @Singleton
-    MainVideoRepositoryImpl providesMainVideoRepositoryImpl(DownloadFileFromURL downloadFileFromURL) {
-        return new MainVideoRepositoryImpl(downloadFileFromURL);
+    MainVideoRepositoryImpl providesMainVideoRepositoryImpl(DownloadFileFromURL downloadFileFromURL, EventBus eventBus, MainEvent event) {
+        return new MainVideoRepositoryImpl(downloadFileFromURL, eventBus, event);
     }
 
 }

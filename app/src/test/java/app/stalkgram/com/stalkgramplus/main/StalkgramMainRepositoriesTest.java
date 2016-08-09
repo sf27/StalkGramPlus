@@ -30,8 +30,8 @@ public class StalkgramMainRepositoriesTest extends BaseTest {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        mainVideoRepository = new MainVideoRepositoryImpl(downloadFileFromURL);
-        mainImageRepository = new MainImageRepositoryImpl(downloadFileFromURL);
+        mainVideoRepository = new MainVideoRepositoryImpl(downloadFileFromURL, eventBus, mainEvent);
+        mainImageRepository = new MainImageRepositoryImpl(downloadFileFromURL, eventBus, mainEvent);
     }
 
     @Test

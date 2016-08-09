@@ -52,6 +52,9 @@ public class MainPresenterImpl implements MainPresenter, DownloadPageAndParseHtm
             mainView.disableInputs();
             mainView.showProgress();
         }
+        if(parseHtml.getStatus() == AsyncTask.Status.FINISHED){
+            parseHtml = new DownloadPageAndParseHtml(context);
+        }
         parseHtml.setOnCompleteCallback(this);
         parseHtml.execute(url);
     }
