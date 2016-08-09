@@ -4,6 +4,7 @@ import android.content.Context;
 
 import javax.inject.Singleton;
 
+import app.stalkgram.com.stalkgramplus.domain.DownloadFileFromURL;
 import app.stalkgram.com.stalkgramplus.domain.DownloadPageAndParseHtml;
 import app.stalkgram.com.stalkgramplus.lib.base.EventBus;
 import app.stalkgram.com.stalkgramplus.main.MainImageRepositoryImpl;
@@ -57,6 +58,12 @@ public class MainModule {
 
     @Provides
     @Singleton
+    DownloadFileFromURL providesDownloadFileFromURL(EventBus eventBus, MainEvent event) {
+        return new DownloadFileFromURL(eventBus, event);
+    }
+
+    @Provides
+    @Singleton
     MainPresenter providesMainPresenter(Context context, EventBus eventBus, MainView mainView, MainInteractor mainInteractor, DownloadPageAndParseHtml parseHtml) {
         return new MainPresenterImpl(context, eventBus, mainView, mainInteractor, parseHtml);
     }
@@ -69,14 +76,14 @@ public class MainModule {
 
     @Provides
     @Singleton
-    MainImageRepositoryImpl providesMainImageRepositoryImpl(EventBus eventBus) {
-        return new MainImageRepositoryImpl(eventBus);
+    MainImageRepositoryImpl providesMainImageRepositoryImpl(DownloadFileFromURL downloadFileFromURL) {
+        return new MainImageRepositoryImpl(downloadFileFromURL);
     }
 
     @Provides
     @Singleton
-    MainVideoRepositoryImpl providesMainVideoRepositoryImpl(EventBus eventBus) {
-        return new MainVideoRepositoryImpl(eventBus);
+    MainVideoRepositoryImpl providesMainVideoRepositoryImpl(DownloadFileFromURL downloadFileFromURL) {
+        return new MainVideoRepositoryImpl(downloadFileFromURL);
     }
 
 }

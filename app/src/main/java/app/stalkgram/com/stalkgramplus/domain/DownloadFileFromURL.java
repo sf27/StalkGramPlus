@@ -19,12 +19,17 @@ import static app.stalkgram.com.stalkgramplus.main.events.MainEvent.onDownloadVi
 
 public class DownloadFileFromURL extends AsyncTask<String, Integer, String> {
 
-    private int event;
+    private int eventType;
     private EventBus eventBus;
+    private MainEvent event;
 
-    public DownloadFileFromURL(int event, EventBus eventBus) {
-        this.event = event;
+    public DownloadFileFromURL(EventBus eventBus, MainEvent event) {
         this.eventBus = eventBus;
+        this.event = event;
+    }
+
+    public void setEventType(int eventType) {
+        this.eventType = eventType;
     }
 
     /**
@@ -37,8 +42,6 @@ public class DownloadFileFromURL extends AsyncTask<String, Integer, String> {
         String name, path = null;
         try {
             String url_str = f_url[0];
-            System.out.println("URL: " + url_str);
-
             URL url = new URL(url_str);
             URLConnection connection = url.openConnection();
             connection.connect();
@@ -48,7 +51,7 @@ public class DownloadFileFromURL extends AsyncTask<String, Integer, String> {
             // input stream to read file - with 8k buffer
             InputStream input = new BufferedInputStream(url.openStream(), 8192);
 
-            switch (event) {
+            switch (eventType) {
                 case onDownloadImage:
                     name = "image_" + System.currentTimeMillis() + ".jpg";
                     path = AppConstant.DOWNLOAD_DIRECTORY_IMAGES + "/";
@@ -106,7 +109,7 @@ public class DownloadFileFromURL extends AsyncTask<String, Integer, String> {
     @Override
     protected void onPostExecute(String filePath) {
         if (filePath != null) {
-            switch (event) {
+            switch (eventType) {
                 case onDownloadImage:
                     postImageSuccess(filePath);
                     break;
@@ -118,24 +121,23 @@ public class DownloadFileFromURL extends AsyncTask<String, Integer, String> {
         }
     }
 
-    private void postImageSuccess(String filePath) {
+    public void postImageSuccess(String filePath) {
         post(filePath, MainEvent.onDownloadImageSuccess, null, 0);
     }
 
-    private void postVideoSuccess(String filePath) {
+    public void postVideoSuccess(String filePath) {
         post(filePath, MainEvent.onDownloadVideoSuccess, null, 0);
     }
 
-    private void postError(String error) {
+    public void postError(String error) {
         post(null, MainEvent.onDownloadError, error, 0);
     }
 
-    private void postProgress(int progress) {
+    public void postProgress(int progress) {
         post(null, MainEvent.onProgress, null, progress);
     }
 
     private void post(String filePath, int type, String error, int progress) {
-        MainEvent event = new MainEvent();
         event.setType(type);
         event.setError(error);
         event.setFilePath(filePath);

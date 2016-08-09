@@ -1,7 +1,6 @@
 package app.stalkgram.com.stalkgramplus.main;
 
 import app.stalkgram.com.stalkgramplus.domain.DownloadFileFromURL;
-import app.stalkgram.com.stalkgramplus.lib.base.EventBus;
 import app.stalkgram.com.stalkgramplus.main.events.MainEvent;
 
 /**
@@ -9,14 +8,15 @@ import app.stalkgram.com.stalkgramplus.main.events.MainEvent;
  */
 public class MainVideoRepositoryImpl implements MainRepository {
 
-    private EventBus eventBus;
-    public MainVideoRepositoryImpl(EventBus eventBus) {
-        this.eventBus = eventBus;
+    private DownloadFileFromURL downloadFileFromURL;
+
+    public MainVideoRepositoryImpl(DownloadFileFromURL downloadFileFromURL) {
+        this.downloadFileFromURL = downloadFileFromURL;
     }
 
     @Override
     public void downloadFile(String username, String videoUrl) {
-        DownloadFileFromURL downloadFileFromURL = new DownloadFileFromURL(MainEvent.onDownloadVideo, eventBus);
+        downloadFileFromURL.setEventType(MainEvent.onDownloadVideo);
         downloadFileFromURL.execute(videoUrl);
     }
 }
