@@ -1,5 +1,6 @@
 package app.stalkgram.com.stalkgramplus.main;
 
+import app.stalkgram.com.stalkgramplus.main.UI.MainView;
 import app.stalkgram.com.stalkgramplus.main.events.MainEvent;
 
 /**
@@ -15,4 +16,6 @@ public interface MainPresenter {
     void onEventMainThread(MainEvent event);
 
     void checkIfStorageIsAvailable();
+
+    MainView getView();
 }

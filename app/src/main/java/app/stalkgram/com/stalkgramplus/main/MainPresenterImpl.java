@@ -1,6 +1,7 @@
 package app.stalkgram.com.stalkgramplus.main;
 
 import android.content.Context;
+import android.os.AsyncTask;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -22,12 +23,14 @@ public class MainPresenterImpl implements MainPresenter, DownloadPageAndParseHtm
     private MainInteractor mainInteractor;
     private Context context;
     private String filePath;
+    private DownloadPageAndParseHtml parseHtml;
 
-    public MainPresenterImpl(Context context, EventBus eventBus, MainView mainView, MainInteractorImpl mainInteractor) {
+    public MainPresenterImpl(Context context, EventBus eventBus, MainView mainView, MainInteractor mainInteractor, DownloadPageAndParseHtml parseHtml) {
         this.context = context;
         this.eventBus = eventBus;
         this.mainView = mainView;
         this.mainInteractor = mainInteractor;
+        this.parseHtml = parseHtml;
     }
 
     @Override
@@ -49,7 +52,6 @@ public class MainPresenterImpl implements MainPresenter, DownloadPageAndParseHtm
             mainView.disableInputs();
             mainView.showProgress();
         }
-        DownloadPageAndParseHtml parseHtml = new DownloadPageAndParseHtml(context);
         parseHtml.setOnCompleteCallback(this);
         parseHtml.execute(url);
     }
@@ -90,8 +92,11 @@ public class MainPresenterImpl implements MainPresenter, DownloadPageAndParseHtm
     }
 
     @Override
-    public void checkIfStorageIsAvailable() {
+    public void checkIfStorageIsAvailable() {}
 
+    @Override
+    public MainView getView() {
+        return this.mainView;
     }
 
     private void onDownloadError(String error) {

@@ -3,6 +3,7 @@ package app.stalkgram.com.stalkgramplus.main.DI;
 import javax.inject.Singleton;
 
 import app.stalkgram.com.stalkgramplus.lib.DI.LibsModule;
+import app.stalkgram.com.stalkgramplus.main.MainPresenter;
 import app.stalkgram.com.stalkgramplus.main.UI.MainActivity;
 import dagger.Component;
 
@@ -13,5 +14,6 @@ import dagger.Component;
 @Component(modules = {MainModule.class, LibsModule.class})
 public interface MainComponent {
 
-    void inject(MainActivity activity);
+//    void inject(MainActivity activity);
+    MainPresenter getPresenter();
 }

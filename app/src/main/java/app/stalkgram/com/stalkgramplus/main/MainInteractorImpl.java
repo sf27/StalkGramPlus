@@ -19,7 +19,7 @@ public class MainInteractorImpl implements MainInteractor {
     private EventBus eventBus;
     private Context context;
 
-    public MainInteractorImpl(Context context, MainImageRepositoryImpl mainImageRepository, MainVideoRepositoryImpl mainVideoRepository, EventBus eventBus) {
+    public MainInteractorImpl(Context context, MainRepository mainImageRepository, MainRepository mainVideoRepository, EventBus eventBus) {
         this.mainImageRepository = mainImageRepository;
         this.mainVideoRepository = mainVideoRepository;
         this.eventBus = eventBus;

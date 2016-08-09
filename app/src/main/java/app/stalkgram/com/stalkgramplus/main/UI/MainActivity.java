@@ -30,6 +30,7 @@ import javax.inject.Inject;
 
 import app.stalkgram.com.stalkgramplus.R;
 import app.stalkgram.com.stalkgramplus.StalkgramApp;
+import app.stalkgram.com.stalkgramplus.main.DI.MainComponent;
 import app.stalkgram.com.stalkgramplus.main.MainPresenter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -72,6 +73,7 @@ public class MainActivity extends AppCompatActivity
     MainPresenter mainPresenter;
 
     private StalkgramApp app;
+    private MainComponent component;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +100,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setupInjection() {
-        app.getMainComponent(this, this).inject(this);
+        component = app.getMainComponent(this, this);
+//        component.inject(this);
+        mainPresenter = getPresenter();
+    }
+
+    public MainPresenter getPresenter() {
+        return component.getPresenter();
     }
 
     @Override
@@ -152,7 +160,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private String getClipBoardText() {
+    public String getClipBoardText() {
         ClipboardManager myClipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         if (myClipboard.hasPrimaryClip()) {
             ClipData abc = myClipboard.getPrimaryClip();
@@ -179,6 +187,7 @@ public class MainActivity extends AppCompatActivity
             public void run() {
                 imageView.setVisibility(View.INVISIBLE);
                 videoView.setVisibility(View.INVISIBLE);
+                setInputs(false);
                 progressBar.setIndeterminate(false);
                 progressBar.setProgress(0);
                 progressBar.setMax(100);
@@ -203,6 +212,7 @@ public class MainActivity extends AppCompatActivity
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                setInputs(true);
                 imageView.setVisibility(View.INVISIBLE);
                 videoView.setVisibility(View.INVISIBLE);
                 progressBar.setVisibility(View.INVISIBLE);

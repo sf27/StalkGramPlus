@@ -4,11 +4,14 @@ import android.content.Context;
 
 import javax.inject.Singleton;
 
+import app.stalkgram.com.stalkgramplus.domain.DownloadPageAndParseHtml;
 import app.stalkgram.com.stalkgramplus.lib.base.EventBus;
 import app.stalkgram.com.stalkgramplus.main.MainImageRepositoryImpl;
+import app.stalkgram.com.stalkgramplus.main.MainInteractor;
 import app.stalkgram.com.stalkgramplus.main.MainInteractorImpl;
 import app.stalkgram.com.stalkgramplus.main.MainPresenter;
 import app.stalkgram.com.stalkgramplus.main.MainPresenterImpl;
+import app.stalkgram.com.stalkgramplus.main.MainRepository;
 import app.stalkgram.com.stalkgramplus.main.MainVideoRepositoryImpl;
 import app.stalkgram.com.stalkgramplus.main.UI.MainView;
 import dagger.Module;
@@ -42,13 +45,19 @@ public class MainModule {
 
     @Provides
     @Singleton
-    MainPresenter providesMainPresenter(Context context, EventBus eventBus, MainView mainView, MainInteractorImpl mainInteractor) {
-        return new MainPresenterImpl(context, eventBus, mainView, mainInteractor);
+    DownloadPageAndParseHtml providesDownloadPageAndParseHtml() {
+        return new DownloadPageAndParseHtml(context);
     }
 
     @Provides
     @Singleton
-    MainInteractorImpl providesMainInteractor(Context context, MainImageRepositoryImpl mainImageRepository, MainVideoRepositoryImpl mainVideoRepository, EventBus eventBus) {
+    MainPresenter providesMainPresenter(Context context, EventBus eventBus, MainView mainView, MainInteractor mainInteractor, DownloadPageAndParseHtml parseHtml) {
+        return new MainPresenterImpl(context, eventBus, mainView, mainInteractor, parseHtml);
+    }
+
+    @Provides
+    @Singleton
+    MainInteractor providesMainInteractor(Context context, MainImageRepositoryImpl mainImageRepository, MainVideoRepositoryImpl mainVideoRepository, EventBus eventBus) {
         return new MainInteractorImpl(context, mainImageRepository, mainVideoRepository, eventBus);
     }
 
