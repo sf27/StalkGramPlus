@@ -10,20 +10,15 @@ import app.stalkgram.com.stalkgramplus.R;
 
 public class DownloadPageAndParseHtml extends AsyncTask<String, Integer, HashMap<String, String>> {
 
-    public interface onCompletedCallback {
-        void onComplete(HashMap<String, String> data);
-    }
-
     private Context context;
     private ProgressDialog pDialog;
     private onCompletedCallback onCompleteCallback;
-
     public DownloadPageAndParseHtml(Context newContext) {
         super();
         this.context = newContext;
     }
 
-    public void setOnCompleteCallback(onCompletedCallback onCompleteCallback){
+    public void setOnCompleteCallback(onCompletedCallback onCompleteCallback) {
         this.onCompleteCallback = onCompleteCallback;
     }
 
@@ -48,17 +43,9 @@ public class DownloadPageAndParseHtml extends AsyncTask<String, Integer, HashMap
      */
     @Override
     protected HashMap<String, String> doInBackground(String... urls) {
-
         String url = urls[0];
-
-        if (url.isEmpty()) {
-            System.out.println("Return null FileObject, the url is empty");
-            return null;
-        }
-
         ScrappingInstagram scrappingInstagram = new ScrappingInstagram();
-        HashMap<String, String> data = scrappingInstagram.getData(url);
-        return data;
+        return scrappingInstagram.getData(url);
     }
 
     /**
@@ -68,5 +55,9 @@ public class DownloadPageAndParseHtml extends AsyncTask<String, Integer, HashMap
     protected void onPostExecute(HashMap<String, String> data) {
         pDialog.dismiss();
         onCompleteCallback.onComplete(data);
+    }
+
+    public interface onCompletedCallback {
+        void onComplete(HashMap<String, String> data);
     }
 }

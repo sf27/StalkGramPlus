@@ -8,6 +8,8 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
 
+    useLibrary 'org.apache.http.legacy'
+
     dexOptions {
         maxProcessCount 2
         javaMaxHeapSize "2g"
@@ -51,7 +53,6 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile "junit:junit:$rootProject.ext.junitVersion"
     compile "com.android.support:appcompat-v7:$rootProject.ext.supportVersion"
     compile "com.android.support:design:$rootProject.ext.supportVersion"
     compile "com.android.support:appcompat-v7:$rootProject.ext.supportVersion"
@@ -64,5 +65,8 @@ dependencies {
     apt "com.google.dagger:dagger-compiler:$rootProject.ext.daggerVersion"
     compile "javax.annotation:jsr250-api:$rootProject.ext.jsr250Version"
     compile "com.google.dagger:dagger:$rootProject.ext.daggerVersion"
-    compile 'org.jsoup:jsoup:1.8.3'
+    compile "org.jsoup:jsoup:$rootProject.ext.jsoupVersion"
+    testCompile "org.robolectric:robolectric:$rootProject.ext.roboelectricVersion"
+    testCompile "org.mockito:mockito-all:$rootProject.ext.mockitoVersion"
+    testCompile "junit:junit:$rootProject.ext.junitVersion"
 }
