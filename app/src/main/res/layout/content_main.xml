@@ -23,7 +23,7 @@
             android:id="@+id/txt_link"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/main.edit.paste_the_share_link_here"
+            android:hint="@string/main_edit_paste_the_share_link_here"
             android:inputType="textEmailAddress"/>
 
     </android.support.design.widget.TextInputLayout>
@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:text="@string/main.button.set_as"
+                android:text="@string/main_button_set_as"
                 android:textColor="@color/cardview_light_background"/>
 
         </LinearLayout>
@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:text="@string/main.button.share"
+                android:text="@string/main_button_share"
                 android:textColor="@color/cardview_light_background"/>
         </LinearLayout>
     </LinearLayout>
