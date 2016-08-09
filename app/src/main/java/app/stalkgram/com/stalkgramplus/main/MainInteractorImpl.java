@@ -18,12 +18,14 @@ public class MainInteractorImpl implements MainInteractor {
     private MainRepository mainVideoRepository;
     private EventBus eventBus;
     private Context context;
+    private MainEvent event;
 
-    public MainInteractorImpl(Context context, MainRepository mainImageRepository, MainRepository mainVideoRepository, EventBus eventBus) {
+    public MainInteractorImpl(Context context, MainRepository mainImageRepository, MainRepository mainVideoRepository, EventBus eventBus, MainEvent event) {
         this.mainImageRepository = mainImageRepository;
         this.mainVideoRepository = mainVideoRepository;
         this.eventBus = eventBus;
         this.context = context;
+        this.event = event;
     }
 
     @Override
@@ -39,7 +41,7 @@ public class MainInteractorImpl implements MainInteractor {
                 mainImageRepository.downloadFile(username, imageUrl);
             }
         } else {
-            MainEvent event = new MainEvent();
+//            MainEvent event = new MainEvent();
             event.setType(MainEvent.onDownloadError);
             event.setError(context.getString(R.string.event_error_not_return_data));
             eventBus.post(event);

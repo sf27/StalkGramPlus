@@ -11,9 +11,9 @@ import app.stalkgram.com.stalkgramplus.main.MainInteractor;
 import app.stalkgram.com.stalkgramplus.main.MainInteractorImpl;
 import app.stalkgram.com.stalkgramplus.main.MainPresenter;
 import app.stalkgram.com.stalkgramplus.main.MainPresenterImpl;
-import app.stalkgram.com.stalkgramplus.main.MainRepository;
 import app.stalkgram.com.stalkgramplus.main.MainVideoRepositoryImpl;
 import app.stalkgram.com.stalkgramplus.main.UI.MainView;
+import app.stalkgram.com.stalkgramplus.main.events.MainEvent;
 import dagger.Module;
 import dagger.Provides;
 
@@ -45,6 +45,12 @@ public class MainModule {
 
     @Provides
     @Singleton
+    MainEvent providesMainEvent() {
+        return new MainEvent();
+    }
+
+    @Provides
+    @Singleton
     DownloadPageAndParseHtml providesDownloadPageAndParseHtml() {
         return new DownloadPageAndParseHtml(context);
     }
@@ -57,8 +63,8 @@ public class MainModule {
 
     @Provides
     @Singleton
-    MainInteractor providesMainInteractor(Context context, MainImageRepositoryImpl mainImageRepository, MainVideoRepositoryImpl mainVideoRepository, EventBus eventBus) {
-        return new MainInteractorImpl(context, mainImageRepository, mainVideoRepository, eventBus);
+    MainInteractor providesMainInteractor(Context context, MainImageRepositoryImpl mainImageRepository, MainVideoRepositoryImpl mainVideoRepository, EventBus eventBus, MainEvent event) {
+        return new MainInteractorImpl(context, mainImageRepository, mainVideoRepository, eventBus, event);
     }
 
     @Provides
