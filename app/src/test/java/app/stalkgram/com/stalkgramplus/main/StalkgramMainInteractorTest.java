@@ -27,6 +27,8 @@ public class StalkgramMainInteractorTest extends BaseTest {
     @Mock
     private MainEvent mainEvent;
     private MainInteractor interactor;
+    private static final  String URL = "https://www.instagram.com/testurl";
+    private static final  String USERNAME = "@test";
 
     @Override
     public void setUp() throws Exception {
@@ -37,26 +39,24 @@ public class StalkgramMainInteractorTest extends BaseTest {
     @Test
     public void testDownloadFile_callsMainImageRepository() {
         HashMap<String, String> data = new HashMap<>();
-        String url = "https://www.instagram.com/testurl";
-        String username = "@test";
-        data.put(ScrappingInstagram.USERNAME_KEY, username);
+
+        data.put(ScrappingInstagram.USERNAME_KEY, USERNAME);
         data.put(ScrappingInstagram.VIDEO_KEY, null);
-        data.put(ScrappingInstagram.IMAGE_KEY, url);
+        data.put(ScrappingInstagram.IMAGE_KEY, URL);
         interactor.downloadFile(data);
-        verify(mainImageRepository).downloadFile(username, url);
+        verify(mainImageRepository).downloadFile(USERNAME, URL);
     }
 
     @Test
     public void testDownloadFile_callsMainVideoRepository() {
         HashMap<String, String> data = new HashMap<>();
-        String url = "https://www.instagram.com/testurl";
-        String username = "@test";
-        data.put(ScrappingInstagram.USERNAME_KEY, username);
-        data.put(ScrappingInstagram.VIDEO_KEY, url);
+
+        data.put(ScrappingInstagram.USERNAME_KEY, USERNAME);
+        data.put(ScrappingInstagram.VIDEO_KEY, URL);
         data.put(ScrappingInstagram.IMAGE_KEY, null);
 
         interactor.downloadFile(data);
-        verify(mainVideoRepository).downloadFile(username, url);
+        verify(mainVideoRepository).downloadFile(USERNAME, URL);
     }
 
     @Test
