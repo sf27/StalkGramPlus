@@ -1,18 +1,18 @@
 <resources>
-    <string name="app.name">StalkgramPlus</string>
+    <string name="app_name">StalkgramPlus</string>
+    <string name="app_description">App to download images and videos from Instagram</string>
 
-    <string name="navigation.drawer.open">Open navigation drawer</string>
-    <string name="navigation.drawer.close">Close navigation drawer</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action.settings">Settings</string>
-    <string name="main.button.share">Share</string>
-    <string name="main.edit.paste.the.share.link.here">Paste the share link here</string>
-    <string name="main.error.empty.clipboard">Error: You must paste a valid url</string>
-    <string name="download.and.parse.progress">Scanning Instagram WebSite...</string>
-    <string name="drawer.images.menu">Images</string>
-    <string name="drawer.videos.menu">Videos</string>
-    <string name="stalkgram.description">App to download images and videos from Instagram</string>
-    <string name="main.button.set.as">Set as</string>
-    <string name="event.error.not.return.data">Object did not return data </string>
-    <string name="main.error.downloading.file">An error has occurred downloading file: %s </string>
+    <string name="action_settings">Settings</string>
+    <string name="main_button_share">Share</string>
+    <string name="main_edit_paste_the_share_link_here">Paste the share link here</string>
+    <string name="main_error_empty_clipboard">Error: You must paste a valid url</string>
+    <string name="drawer_images_menu">Images</string>
+    <string name="drawer_videos_menu">Videos</string>
+    <string name="main_button_set_as">Set as</string>
+    <string name="main_error_downloading_file">An error has occurred downloading file: %s </string>
+    <string name="event_error_not_return_data">Object did not return data </string>
+    <string name="download_and_parse_progress">Scanning Instagram WebSite</string>
 </resources>
