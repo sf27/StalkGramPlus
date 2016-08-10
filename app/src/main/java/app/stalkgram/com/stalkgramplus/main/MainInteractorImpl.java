@@ -41,7 +41,6 @@ public class MainInteractorImpl implements MainInteractor {
                 mainImageRepository.downloadFile(username, imageUrl);
             }
         } else {
-//            MainEvent event = new MainEvent();
             event.setType(MainEvent.onDownloadError);
             event.setError(context.getString(R.string.event_error_not_return_data));
             eventBus.post(event);

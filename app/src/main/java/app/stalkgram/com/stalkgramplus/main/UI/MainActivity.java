@@ -182,41 +182,30 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void showProgress() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                imageView.setVisibility(View.INVISIBLE);
-                videoView.setVisibility(View.INVISIBLE);
-                setInputs(false);
-                progressBar.setIndeterminate(false);
-                progressBar.setProgress(0);
-                progressBar.setMax(100);
-                progressBar.invalidate();
-                progressBar.setVisibility(View.VISIBLE);
-            }
+        runOnUiThread(() -> {
+            imageView.setVisibility(View.INVISIBLE);
+            videoView.setVisibility(View.INVISIBLE);
+            setInputs(false);
+            progressBar.setIndeterminate(false);
+            progressBar.setProgress(0);
+            progressBar.setMax(100);
+            progressBar.invalidate();
+            progressBar.setVisibility(View.VISIBLE);
         });
     }
 
     @Override
     public void onProgress(final int progress) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                progressBar.setProgress(progress);
-            }
-        });
+        runOnUiThread(() -> progressBar.setProgress(progress));
     }
 
     @Override
     public void hideProgress() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                setInputs(true);
-                imageView.setVisibility(View.INVISIBLE);
-                videoView.setVisibility(View.INVISIBLE);
-                progressBar.setVisibility(View.INVISIBLE);
-            }
+        runOnUiThread(() -> {
+            setInputs(true);
+            imageView.setVisibility(View.INVISIBLE);
+            videoView.setVisibility(View.INVISIBLE);
+            progressBar.setVisibility(View.INVISIBLE);
         });
     }
 
@@ -228,69 +217,52 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void downloadImageSuccess(final String imagePath) {
-        imageView.post(new Runnable() {
-
-            @Override
-            public void run() {
-                imageView.setImageDrawable(Drawable.createFromPath(imagePath));
-                imageView.setVisibility(View.VISIBLE);
-            }
+        imageView.post(() -> {
+            imageView.setImageDrawable(Drawable.createFromPath(imagePath));
+            imageView.setVisibility(View.VISIBLE);
         });
     }
 
     @Override
     public void downloadVideoSuccess(final String videoPath) {
-        this.videoView.post(new Runnable() {
+        this.videoView.post(() -> {
+            final MediaController mediaController;
+            mediaController = new MediaController(MainActivity.this, true);
+            mediaController.setEnabled(false);
 
-            @Override
-            public void run() {
-                final MediaController mediaController;
-                mediaController = new MediaController(MainActivity.this, true);
-                mediaController.setEnabled(false);
+            FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(                                         FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT
+            );
 
-                FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(                                         FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT
-                );
+            videoView.setLayoutParams(lp);
+            videoView.setMediaController(mediaController);
+            videoView.setVideoPath(videoPath);
+            videoView.setOnPreparedListener(mediaPlayer -> {
+                mediaController.setEnabled(true);
+                mediaPlayer.start();// starts playing the video
+            });
 
-                videoView.setLayoutParams(lp);
-                videoView.setMediaController(mediaController);
-                videoView.setVideoPath(videoPath);
-                videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                    @Override
-                    public void onPrepared(MediaPlayer mediaPlayer) {
-                        mediaController.setEnabled(true);
-                        mediaPlayer.start();// starts playing the video
-                    }
-                });
-
-                videoView.setVisibility(View.VISIBLE);
-            }
+            videoView.setVisibility(View.VISIBLE);
         });
     }
 
     @Override
     public void downloadError(final String error) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                txtLink.setText("");
-                String msgError = String.format(
-                        getString(R.string.main_error_downloading_file), error
-                );
-                Snackbar.make(
-                        container, msgError, Snackbar.LENGTH_SHORT
-                ).show();
-            }
+        runOnUiThread(() -> {
+            txtLink.setText("");
+            String msgError = String.format(
+                    getString(R.string.main_error_downloading_file), error
+            );
+            Snackbar.make(
+                    container, msgError, Snackbar.LENGTH_SHORT
+            ).show();
         });
     }
 
     private void setInputs(final boolean enabled) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                txtLink.setEnabled(enabled);
-                btnSetAs.setEnabled(enabled);
-                btnShare.setEnabled(enabled);
-            }
+        runOnUiThread(() -> {
+            txtLink.setEnabled(enabled);
+            btnSetAs.setEnabled(enabled);
+            btnShare.setEnabled(enabled);
         });
     }
 
