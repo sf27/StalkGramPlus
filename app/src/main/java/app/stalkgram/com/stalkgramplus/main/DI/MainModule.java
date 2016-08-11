@@ -2,6 +2,7 @@ package app.stalkgram.com.stalkgramplus.main.DI;
 
 import android.content.Context;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import app.stalkgram.com.stalkgramplus.domain.DownloadFileFromURL;
@@ -12,6 +13,7 @@ import app.stalkgram.com.stalkgramplus.main.MainInteractor;
 import app.stalkgram.com.stalkgramplus.main.MainInteractorImpl;
 import app.stalkgram.com.stalkgramplus.main.MainPresenter;
 import app.stalkgram.com.stalkgramplus.main.MainPresenterImpl;
+import app.stalkgram.com.stalkgramplus.main.MainRepository;
 import app.stalkgram.com.stalkgramplus.main.MainVideoRepositoryImpl;
 import app.stalkgram.com.stalkgramplus.main.UI.MainView;
 import app.stalkgram.com.stalkgramplus.main.events.MainEvent;
@@ -70,19 +72,21 @@ public class MainModule {
 
     @Provides
     @Singleton
-    MainInteractor providesMainInteractor(Context context, MainImageRepositoryImpl mainImageRepository, MainVideoRepositoryImpl mainVideoRepository, EventBus eventBus, MainEvent event) {
+    MainInteractor providesMainInteractor(Context context, @Named("MainImageRepositoryImpl") MainRepository mainImageRepository, @Named("MainVideoRepositoryImpl") MainRepository mainVideoRepository, EventBus eventBus, MainEvent event) {
         return new MainInteractorImpl(context, mainImageRepository, mainVideoRepository, eventBus, event);
     }
 
     @Provides
+    @Named("MainImageRepositoryImpl")
     @Singleton
-    MainImageRepositoryImpl providesMainImageRepositoryImpl(DownloadFileFromURL downloadFileFromURL, EventBus eventBus, MainEvent event) {
+    MainRepository providesMainImageRepositoryImpl(DownloadFileFromURL downloadFileFromURL, EventBus eventBus, MainEvent event) {
         return new MainImageRepositoryImpl(downloadFileFromURL, eventBus, event);
     }
 
     @Provides
+    @Named("MainVideoRepositoryImpl")
     @Singleton
-    MainVideoRepositoryImpl providesMainVideoRepositoryImpl(DownloadFileFromURL downloadFileFromURL, EventBus eventBus, MainEvent event) {
+    MainRepository providesMainVideoRepositoryImpl(DownloadFileFromURL downloadFileFromURL, EventBus eventBus, MainEvent event) {
         return new MainVideoRepositoryImpl(downloadFileFromURL, eventBus, event);
     }
 
