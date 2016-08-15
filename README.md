@@ -1,8 +1,10 @@
 #StalkGram Plus
 
-This is an app to download videos and images from **Instagram.**
+This is an Android App to download videos and images from **Instagram.**
 
 The project contains an exemplification of the Model-View-Presenter pattern used together with Clean Architecture.
+
+This is an improved version of [Stalkgram](https://play.google.com/store/apps/details?id=com.instagram.instaprofile&hl=es_419)
 
 ## Use case 
 Just copy the link of an image in the app, and press the *FloatingActionButton* of the app. 
